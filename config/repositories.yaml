@@ -1,0 +1,12 @@
+services:
+    App\Repository\PresetRepository:
+        factory: ['@doctrine_mongodb', getRepository]
+        arguments: ['App\Document\Preset']
+
+    App\Repository\ThemeRepository:
+        factory: ['@doctrine_mongodb', getRepository]
+        arguments: ['App\Document\Theme']
+
+    App\Repository\UpdateRepository:
+        factory: ['@doctrine_mongodb', getRepository]
+        arguments: ['App\Document\Update']

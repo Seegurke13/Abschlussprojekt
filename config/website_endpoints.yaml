@@ -1,0 +1,4 @@
+parameters:
+    website_endpoints:
+        rc: 'http://paula.dev.local/webseite'
+        live: 'http://paula.dev.local/webseite'

@@ -1,0 +1,50 @@
+imports:
+    - { resource: repositories.yaml }
+    - { resource: website_endpoints.yaml }
+
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Repository,Document,Migrations,Tests,Kernel.php}'
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Command\:
+        resource: '../src/Command'
+        tags: ['console.command']
+
+    App\Exporter\:
+        resource: '../src/Exporter'
+        tags: ['kernel.event_subscriber']
+
+    App\Importer\:
+        resource: '../src/Importer'
+        tags: ['kernel.event_subscriber']
+
+    App\Manipulator\:
+        resource: '../src/Manipulator'
+        tags: ['updater.manipulator']
+
+    App\Service\ManipulatorContainer:
+        arguments: ['collection']
+
+    App\Exporter\WebsiteExporter:
+        arguments:
+            - '@logger'
+            - '@App\Service\HttpClient'
+            - '%website_endpoints%'
+
+
+    doctrine_mongo_db_param_converter:
+        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter
+        tags:
+            - { name: request.param_converter, converter: doctrine.odm }
+        arguments: ['@doctrine_mongodb']
