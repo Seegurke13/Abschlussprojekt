@@ -1,0 +1,46 @@
+version: '3'
+services:
+  apache:
+    image: webdevops/apache-dev:latest
+    depends_on:
+      - php
+    volumes:
+      - ./:/app/
+      - ./:/docker/
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - php
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/public
+      - WEB_PHP_SOCKET=php:9000
+
+  php:
+    build:
+      context: docker/php/
+    ports:
+      - 9000:9000
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    working_dir: /app/
+    volumes:
+      - ./:/app/
+      - ./:/docker/
+
+  mongo:
+    image: mongo
+    restart: always
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
