@@ -4,11 +4,12 @@
 namespace App\Manipulator\Css;
 
 
-use App\Manipulator\Manipulator;
+use App\Manipulator\AbstractManipulator;
 use Symfony\Component\DomCrawler\Crawler;
 
-class CssManipulator implements Manipulator
+class CssManipulator extends AbstractManipulator
 {
+    protected const TYPE = 'css';
     /**
      * @var CssParser
      */
@@ -26,7 +27,7 @@ class CssManipulator implements Manipulator
 
     public function supports(string $type): bool
     {
-        return $type === 'css';
+        return $type === self::TYPE;
     }
 
     public function manipulate(string $rules, string $content): string

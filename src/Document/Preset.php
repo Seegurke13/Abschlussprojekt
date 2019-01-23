@@ -3,6 +3,7 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MongoDB\Document(repositoryClass="App\Repository\PresetRepository")
@@ -16,6 +17,7 @@ class Preset
 
     /**
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -26,6 +28,7 @@ class Preset
 
     /**
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank
      */
     private $type;
 

@@ -4,6 +4,7 @@ namespace App\Document;
 
 use Doctrine\MongoDB\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MongoDB\Document(repositoryClass="App\Repository\ThemeRepository")
@@ -17,11 +18,13 @@ class Theme
     /**
      * @var string
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank
      */
     private $name;
     /**
      * @var int
      * @MongoDB\Field(type="integer")
+     * @Assert\NotBlank
      */
     private $affiliateId;
     /**

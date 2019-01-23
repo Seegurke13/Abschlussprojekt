@@ -34,4 +34,15 @@ class ManipulatorContainer
 
         throw new UpdateException("Type {$type} is not supported by Manipulators");
     }
+
+    public function getAllSupportingTypes(): array
+    {
+        $types = [];
+        /** @var Manipulator $manipulator */
+        foreach ($this->manipulators as $manipulator) {
+            $types[] = $manipulator->getType();
+        }
+
+        return $types;
+    }
 }

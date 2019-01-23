@@ -13,7 +13,6 @@ abstract class Exporter implements EventSubscriberInterface
 
     public function export(GetUpdateEvent $event)
     {
-        die('update');
     }
 
     public static function getSubscribedEvents()

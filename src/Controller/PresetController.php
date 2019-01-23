@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Document\Preset;
 use App\Form\PresetType;
 use App\Repository\PresetRepository;
+use App\Service\ManipulatorContainer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,13 +25,19 @@ class PresetController extends AbstractController
      * @var DocumentManager
      */
     private $documentManager;
+    /**
+     * @var ManipulatorContainer
+     */
+    private $manipulatorContainer;
 
     public function __construct(
         DocumentManager $documentManager,
-        PresetRepository $presetRepository
+        PresetRepository $presetRepository,
+        ManipulatorContainer $manipulatorContainer
     ) {
         $this->documentManager = $documentManager;
         $this->presetRepository = $presetRepository;
+        $this->manipulatorContainer = $manipulatorContainer;
     }
 
     /**
@@ -50,6 +57,14 @@ class PresetController extends AbstractController
         }
 
         return new JsonResponse(['status' => 'error', $form->getErrors()]);
+    }
+
+    /**
+     * @Route("/types")
+     */
+    public function getSupportedTypes()
+    {
+        return $this->json($this->manipulatorContainer->getAllSupportingTypes());
     }
 
     /**

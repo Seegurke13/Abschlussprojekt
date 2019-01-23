@@ -1,6 +1,9 @@
 imports:
     - { resource: repositories.yaml }
     - { resource: website_endpoints.yaml }
+    - { resource: exporters.yaml }
+    - { resource: importers.yaml }
+    - { resource: manipulators.yaml }
 
 parameters:
 
@@ -11,7 +14,7 @@ services:
 
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Repository,Document,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Repository,Exporter,Manipulator,Importer,Document,Migrations,Tests,Kernel.php}'
 
     App\Controller\:
         resource: '../src/Controller'
@@ -21,27 +24,8 @@ services:
         resource: '../src/Command'
         tags: ['console.command']
 
-    App\Exporter\:
-        resource: '../src/Exporter'
-        tags: ['kernel.event_subscriber']
-
-    App\Importer\:
-        resource: '../src/Importer'
-        tags: ['kernel.event_subscriber']
-
-    App\Manipulator\:
-        resource: '../src/Manipulator'
-        tags: ['updater.manipulator']
-
     App\Service\ManipulatorContainer:
         arguments: ['collection']
-
-    App\Exporter\WebsiteExporter:
-        arguments:
-            - '@logger'
-            - '@App\Service\HttpClient'
-            - '%website_endpoints%'
-
 
     doctrine_mongo_db_param_converter:
         class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter

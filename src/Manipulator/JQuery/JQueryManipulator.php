@@ -3,18 +3,18 @@
 
 namespace App\Manipulator\JQuery;
 
-use App\Manipulator\JQuery\JQueryParser;
-use App\Manipulator\JQuery\JQueryVisitor;
-use App\Manipulator\Manipulator;
+use App\Manipulator\AbstractManipulator;
 use DOMWrap\Document;
 
-class JQueryManipulator implements Manipulator
+class JQueryManipulator extends AbstractManipulator
 {
     private $parser;
     /**
      * @var JQueryVisitor
      */
     private $jQueryVisitor;
+
+    protected const TYPE = 'jquery';
 
     public function __construct(JQueryParser $parser, JQueryVisitor $jQueryVisitor)
     {
@@ -31,10 +31,5 @@ class JQueryManipulator implements Manipulator
         $this->jQueryVisitor->visit($ast, $handle, $doc);
 
         return $doc->getHtml();
-    }
-
-    public function supports(string $type): bool
-    {
-        return $type === 'jquery';
     }
 }

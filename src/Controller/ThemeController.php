@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Document\Theme;
+use App\ErrorResponse;
+use App\Exception\UpdateException;
 use App\Form\ThemeType;
 use App\Repository\ThemeRepository;
 use App\Service\UpdateService;
@@ -67,7 +69,7 @@ class ThemeController extends AbstractController
             return $this->json(['status' => 'success']);
         }
 
-        return $this->json(['status' => 'error']);
+        return $this->json(['status' => 'error', 'error' => $form->getErrors()]);
     }
 
     /**
@@ -105,11 +107,14 @@ class ThemeController extends AbstractController
         $update = $this->updateService->createUpdate($theme);
 
         $themeFields = $theme->getFields();
-        $fields = $this->updateService->importFields($themeFields);
+        try {
+            $fields = $this->updateService->importFields($themeFields);
 
-        $update->setFields($this->updateService->manipulateFields($themeFields, $fields));
-        $this->documentManager->persist($update);
-
+            $update->setFields($this->updateService->manipulateFields($themeFields, $fields));
+            $this->documentManager->persist($update);
+        } catch (UpdateException $exception) {
+            return new ErrorResponse($exception);
+        }
         return $this->forward(UpdateController::class.'::export',[
             'update' => $update,
             'env' => 'rc',
