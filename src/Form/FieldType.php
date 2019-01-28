@@ -15,9 +15,12 @@ class FieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('name', TextType::class)
             ->add('source', TextType::class)
-            ->add('presets', CollectionType::class, [])
+            ->add('presets', CollectionType::class, [
+                'entry_type' => PresetType::class,
+            ])
         ;
     }
 

@@ -10,6 +10,7 @@ use App\Repository\ThemeRepository;
 use App\Service\UpdateService;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\MakerBundle\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -73,22 +74,23 @@ class ThemeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="theme_edit")
+     * @Route("/{id}/edit", name="theme_edit", methods={"PUT","POST"})
      */
     public function edit(Theme $theme, Request $request)
     {
         $form = $this->createForm(ThemeType::class, $theme);
-        $request->getContent();
-        $form->submit(json_decode($request->getContent(), true));
+        $content = json_decode($request->getContent(), true);
+        $form->submit($content, true);
 
         if ($form->isValid() === true) {
-            $this->documentManager->persist($theme);
+            $form->getData();
             $this->documentManager->flush();
 
             return $this->json(['status' => 'success']);
         }
+        $errors = [];
 
-        return $this->json(['status' => 'error']);
+        return $this->json(['status' => 'error', 'error' => $errors]);
     }
 
     /**

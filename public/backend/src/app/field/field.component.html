@@ -1,3 +1,14 @@
-<p>
-  field works!
-</p>
+<div class="field" *ngIf="field">
+  <label>{{ name }}</label>
+  <label>Source:</label>
+  <input [(ngModel)]="field.source">
+  <label>Presets:</label>
+  <div class="field-presets">
+    <!--<div class="field-preset" [ngClass]="{'preset-active' : isPresetActive(presets, preset)}" *ngFor="let preset of field.presets">-->
+        <!--<label>{{ preset.name }}</label>-->
+    <!--</div>-->
+    <div class="field-preset" [ngClass]="{'preset-active' : isPresetActive(field.presets, preset)}" *ngFor="let preset of presets">
+      <label>{{ preset.name }}</label>
+    </div>
+  </div>
+</div>

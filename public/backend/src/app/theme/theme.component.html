@@ -1,3 +1,13 @@
-<p>
-  theme works!
-</p>
+<div class="theme-edit" *ngIf="theme">
+        <label>Name</label>
+        <input [(ngModel)]="theme.name" type="text">
+        <label>AffiliateId</label>
+        <input [value]="theme.affiliateId" type="number">
+        <label>Fields</label>
+        <div class="fields" *ngIf="theme.fields">
+            <div *ngFor="let field of keys(theme.fields)" class="field">
+                <app-field [name]="field" [presets]="presets" [field]="theme.fields[field]"></app-field>
+            </div>
+            <button (click)="addField()">Add Field</button>
+        </div>
+</div>

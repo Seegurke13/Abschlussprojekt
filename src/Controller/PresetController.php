@@ -91,9 +91,7 @@ class PresetController extends AbstractController
     {
         $presets = $this->presetRepository->findAll();
 
-        return $this->json([
-            'presets' => $presets,
-        ]);
+        return $this->json($presets);
     }
 
     /**
