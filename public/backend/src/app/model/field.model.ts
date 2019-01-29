@@ -1,7 +1,7 @@
 import {PresetModel} from "./preset.model";
 
 export interface FieldModel {
-    name?: string;
+    id?: string;
     source?: string;
     presets?: PresetModel[];
 }

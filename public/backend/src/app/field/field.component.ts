@@ -27,4 +27,17 @@ export class FieldComponent implements OnInit {
         }
         return (undefined !== presets.find((preset1: PresetModel) => { return preset.id === preset1.id}));
     }
+
+    public changePresetState(id: number) {
+        let fieldPreset: PresetModel = this.field.presets.find((presetField: PresetModel) => { return presetField.id === id});
+        if (fieldPreset === undefined) {
+            console.log('test');
+            let preset: PresetModel = this.presets.find(function (element) {
+                return element.id === id;
+            });
+            this.field.presets.push(preset);
+        } else {
+            this.field.presets = this.field.presets.filter((preset: PresetModel) => { return preset.id !== id});
+        }
+    }
 }

@@ -7,12 +7,14 @@ use App\ErrorResponse;
 use App\Exception\UpdateException;
 use App\Form\ThemeType;
 use App\Repository\ThemeRepository;
+use App\Service\JsonSerializer;
 use App\Service\UpdateService;
+use App\JsonResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\MakerBundle\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/theme")
@@ -31,16 +33,22 @@ class ThemeController extends AbstractController
      * @var UpdateService
      */
     private $updateService;
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
 
     public function __construct(
         DocumentManager $documentManager,
         ThemeRepository $themeRepository,
-        UpdateService $updateService
+        UpdateService $updateService,
+        JsonSerializer $serializer
     )
     {
         $this->documentManager = $documentManager;
         $this->themeRepository = $themeRepository;
         $this->updateService = $updateService;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -48,9 +56,20 @@ class ThemeController extends AbstractController
      */
     public function index()
     {
+        $viewVars = [];
         $themes = $this->themeRepository->findAll();
+        /** @var Theme $theme */
+        foreach ($themes as $theme) {
+            $viewVars[] = [
+                'id' => $theme->getId(),
+                'name' => $theme->getName(),
+                'affiliateId' => $theme->getId(),
+                'lastUpdate' => '',
+                'status' => ''
+            ];
+        }
 
-        return $this->json($themes);
+        return $this->json($viewVars);
     }
 
     /**
@@ -60,7 +79,6 @@ class ThemeController extends AbstractController
     {
         $theme = new Theme();
         $form = $this->createForm(ThemeType::class, $theme);
-        $request->getContent();
         $form->submit(json_decode($request->getContent(), true));
 
         if ($form->isValid() === true) {
@@ -79,18 +97,15 @@ class ThemeController extends AbstractController
     public function edit(Theme $theme, Request $request)
     {
         $form = $this->createForm(ThemeType::class, $theme);
-        $content = json_decode($request->getContent(), true);
-        $form->submit($content, true);
+        $form->submit(json_decode($request->getContent(), true), true);
 
         if ($form->isValid() === true) {
-            $form->getData();
             $this->documentManager->flush();
 
             return $this->json(['status' => 'success']);
         }
-        $errors = [];
 
-        return $this->json(['status' => 'error', 'error' => $errors]);
+        return $this->json(['status' => 'error', 'error' => $form->getErrors(true, true)]);
     }
 
     /**
@@ -98,7 +113,7 @@ class ThemeController extends AbstractController
      */
     public function show(Theme $theme)
     {
-        return $this->json($theme);
+        return new JsonResponse($this->serializer->serialize($theme));
     }
 
     /**

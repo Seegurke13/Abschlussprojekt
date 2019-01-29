@@ -3,7 +3,10 @@
 
 namespace App\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @MongoDB\EmbeddedDocument
@@ -11,28 +14,32 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class Field
 {
     /**
-     * @MongoDB\Id(strategy="increment")
+     * @MongoDB\Id(strategy="NONE", type="string")
+     * @Groups({"rest"})
      */
     private $id;
     /**
      * @var string
-     */
-    private $name;
-    /**
-     * @var string
      * @MongoDB\Field(type="string")
+     * @Groups({"rest"})
      */
     private $source;
     /**
-     * @var array
+     * @var Collection
      * @MongoDB\ReferenceMany(targetDocument="App\Document\Preset")
+     * @Groups({"rest"})
      */
     private $presets;
+
+    public function __construct()
+    {
+        $this->presets = new ArrayCollection();
+    }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -40,7 +47,7 @@ class Field
     /**
      * @param mixed $id
      */
-    public function setId($id): void
+    public function setId(?string $id): void
     {
         $this->id = $id;
     }
@@ -50,7 +57,7 @@ class Field
      */
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->getId();
     }
 
     /**
@@ -58,13 +65,13 @@ class Field
      */
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->setId($name);
     }
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getPresets()
+    public function getPresets(): ?Collection
     {
         return $this->presets;
     }
@@ -72,7 +79,7 @@ class Field
     /**
      * @param array $presets
      */
-    public function setPresets(?array $presets): void
+    public function setPresets(?Collection $presets): void
     {
         $this->presets = $presets;
     }

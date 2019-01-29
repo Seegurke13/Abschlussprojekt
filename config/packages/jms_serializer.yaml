@@ -5,9 +5,9 @@ jms_serializer:
 #    metadata:
 #        auto_detection: false
 #        directories:
-#            any-name:
+#            any-id:
 #                namespace_prefix: "My\\FooBundle"
 #                path: "@MyFooBundle/Resources/config/serializer"
-#            another-name:
+#            another-id:
 #                namespace_prefix: "My\\BarBundle"
 #                path: "@MyBarBundle/Resources/config/serializer"

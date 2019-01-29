@@ -33,13 +33,16 @@ export class ThemesComponent implements OnInit {
         if (this.theme.id) {
             this.apiService.saveTheme(this.theme).subscribe((data) => {
             });
+            this.themes[this.theme.id] = Object.assign(this.themes[this.theme.id], this.theme);
         } else {
             this.apiService.createTheme(this.theme);
+            this.themes.push(this.theme);
         }
-        this.themes = Object.assign(this.themes, this.theme);
     }
 
     public setTheme(id: number) {
-        this.theme = this.themes.find((theme: ThemeModel) => { return theme.id === id });
+        this.apiService.getTheme(id).subscribe((data: ThemeModel) => {
+            this.theme = data;
+        });
     }
 }

@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Manipulator\:
+        resource: '../src/Manipulator'
+
+    App\Manipulator\Css\CssManipulator:
+        tags: ['updater.manipulator']
+
+    App\Manipulator\JQuery\JQueryManipulator:
+        tags: ['updater.manipulator']

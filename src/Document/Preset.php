@@ -3,6 +3,8 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,6 +14,8 @@ class Preset
 {
     /**
      * @MongoDB\Id(strategy="INCREMENT")
+     * @Groups({"rest"})
+     * @Assert\Type("integer")
      */
     private $id;
 

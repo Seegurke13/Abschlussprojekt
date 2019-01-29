@@ -1,13 +1,21 @@
 <div class="theme-edit" *ngIf="theme">
+    <div class="form-group">
         <label>Name</label>
-        <input [(ngModel)]="theme.name" type="text">
+        <input [(ngModel)]="theme.name" class="form-control" type="text">
+    </div>
+    <div class="form-group">
         <label>AffiliateId</label>
-        <input [value]="theme.affiliateId" type="number">
+        <input [(ngModel)]="theme.affiliateId" class="form-control" type="number">
+    </div>
+    <div class="form-group">
         <label>Fields</label>
         <div class="fields" *ngIf="theme.fields">
-            <div *ngFor="let field of keys(theme.fields)" class="field">
-                <app-field [name]="field" [presets]="presets" [field]="theme.fields[field]"></app-field>
+            <div *ngFor="let field of theme.fields" class="field">
+                <app-field [presets]="presets" [field]="field"></app-field>
             </div>
             <button (click)="addField()">Add Field</button>
         </div>
+    </div>
+
+    <button (click)="saveTheme()">Save</button>
 </div>

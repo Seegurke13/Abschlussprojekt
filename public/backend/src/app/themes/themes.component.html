@@ -1,10 +1,3 @@
-<h1>Themes</h1>
-
-<div *ngIf="theme">
-    <app-theme [theme]="theme" [presets]="presets"></app-theme>
-    <button (click)="saveTheme()">Save</button>
-</div>
-
 <button (click)="createNew()">Create</button>
 <table>
     <thead>
@@ -22,7 +15,10 @@
             <td>{{ theme.affiliateId }}</td>
             <td></td>
             <td></td>
-            <td><button (click)="setTheme(theme.id)">Edit</button><button>Update</button></td>
+            <td>
+                <button><a routerLink="/theme/{{theme.id}}">Edit</a></button>
+                <button>>Update</button>
+            </td>
         </tr>
     </tbody>
 </table>

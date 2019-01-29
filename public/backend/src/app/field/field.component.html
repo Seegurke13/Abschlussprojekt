@@ -1,14 +1,23 @@
-<div class="field" *ngIf="field">
-  <label>{{ name }}</label>
-  <label>Source:</label>
-  <input [(ngModel)]="field.source">
-  <label>Presets:</label>
-  <div class="field-presets">
-    <!--<div class="field-preset" [ngClass]="{'preset-active' : isPresetActive(presets, preset)}" *ngFor="let preset of field.presets">-->
-        <!--<label>{{ preset.name }}</label>-->
-    <!--</div>-->
-    <div class="field-preset" [ngClass]="{'preset-active' : isPresetActive(field.presets, preset)}" *ngFor="let preset of presets">
-      <label>{{ preset.name }}</label>
+<div class="field form-group" *ngIf="field">
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" [(ngModel)]="field.id">
     </div>
-  </div>
+    <div class="form-group">
+        <label>Source:</label>
+        <input class="form-control" [(ngModel)]="field.source">
+    </div>
+    <div class="form-group">
+        <label>Presets:</label>
+        <div class="field-presets">
+            <button type="button" class="field-preset btn"
+                    (click)="changePresetState(preset.id)"
+                 [ngClass]="{'btn-secondary' : !isPresetActive(field.presets, preset),
+                            'btn-primary': isPresetActive(field.presets, preset)}"
+                 *ngFor="let preset of presets"
+            >
+                <label>{{ preset.name }}</label>
+            </button>
+        </div>
+    </div>
 </div>

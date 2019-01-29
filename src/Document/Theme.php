@@ -4,6 +4,7 @@ namespace App\Document;
 
 use Doctrine\MongoDB\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -13,23 +14,27 @@ class Theme
 {
     /**
      * @MongoDB\Id(strategy="increment")
+     * @Groups({"rest"})
      */
     private $id;
     /**
      * @var string
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank
+     * @Groups({"rest"})
      */
     private $name;
     /**
      * @var int
      * @MongoDB\Field(type="integer")
      * @Assert\NotBlank
+     * @Groups({"rest"})
      */
     private $affiliateId;
     /**
      * @var Collection
-     * @MongoDB\EmbedMany(targetDocument="App\Document\Field", strategy="set")
+     * @MongoDB\EmbedMany(targetDocument="App\Document\Field")
+     * @Groups({"rest"})
      */
     private $fields;
 
@@ -60,7 +65,7 @@ class Theme
 
     public function addField(Field $field): void
     {
-        $this->fields[$field->getName()] = $field;
+        $this->fields[] = $field;
     }
 
     public function setFields($collection)
@@ -71,18 +76,6 @@ class Theme
     public function getFields()
     {
         return $this->fields;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getField(string $fieldName): Field
-    {
-        if (array_key_exists($fieldName, $this->fields) === $this->fields) {
-            throw new \Exception('Field does not exists');
-        }
-
-        return $this->fields[$fieldName];
     }
 
     /**
