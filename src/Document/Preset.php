@@ -3,6 +3,9 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MongoDB\Document(repositoryClass="App\Repository\PresetRepository")
@@ -11,11 +14,14 @@ class Preset
 {
     /**
      * @MongoDB\Id(strategy="INCREMENT")
+     * @Groups({"rest"})
+     * @Assert\Type("integer")
      */
     private $id;
 
     /**
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank
      */
     private $name;
 
@@ -26,12 +32,18 @@ class Preset
 
     /**
      * @MongoDB\Field(type="string")
+     * @Assert\NotBlank
      */
     private $type;
 
     public function getId(): ?int
     {
         return (int) $this->id;
+    }
+
+    public function setId(?int $id)
+    {
+        $this->id = $id;
     }
 
     public function getName(): ?string

@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Exporter\WebsiteExporter:
+      arguments:
+        - '@logger'
+        - '@App\Service\HttpClient'
+        - '%website_endpoints%'
+      tags: ['kernel.event_subscriber']

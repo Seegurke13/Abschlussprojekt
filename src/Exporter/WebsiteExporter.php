@@ -45,7 +45,7 @@ class WebsiteExporter extends Exporter
         $env = $event->getEnv();
         $update = $event->getUpdate();
 
-        $request = new Request('PUT', $this->endpoints[$env], [], json_encode($update->getFields()));
+        $request = new Request('PUT', $this->endpoints['environments'][$env], [], json_encode($update->getFields()));
 
         $response = $this->httpClient->send($request);
         if ($response->getStatusCode() !== 200) {

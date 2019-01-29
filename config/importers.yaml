@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Importer\HttpImporter:
+        tags: ['kernel.event_subscriber']

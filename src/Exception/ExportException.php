@@ -4,7 +4,7 @@
 namespace App\Exception;
 
 
-class ExportException
+class ExportException extends \Exception
 {
 
 }

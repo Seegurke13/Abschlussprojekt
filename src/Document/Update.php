@@ -4,6 +4,7 @@ namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use MongoTimestamp;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @MongoDB\Document(repositoryClass="App\Repository\UpdateRepository")
@@ -12,43 +13,52 @@ class Update
 {
     /**
      * @MongoDB\Id(strategy="increment")
+     * @Groups({"rest"})
      */
     private $id;
     /**
      * @MongoDB\Field(type="timestamp")
+     * @Groups({"rest"})
      */
     private $date;
     /**
      * @var string
+     * @Groups({"rest"})
      */
     private $type;
     /**
      * @var string
      * @MongoDB\Field(type="string")
+     * @Groups({"rest"})
      */
     private $themeName;
     /**
      * @var int
      * @MongoDB\Field(type="integer")
+     * @Groups({"rest"})
      */
     private $affiliateId;
     /**
      * @var bool
      * @MongoDB\Field(type="boolean")
+     * @Groups({"rest"})
      */
     private $isChecked;
     /**
      * @var array
      * @MongoDB\Field(type="hash", strategy="set")
+     * @Groups({"rest"})
      */
     private $fields;
     /**
      * @var string
      * @MongoDB\Field(type="string")
+     * @Groups({"rest"})
      */
     private $error;
     /**
      * @MongoDB\Field(type="timestamp")
+     * @Groups({"rest"})
      */
     private $lastActivate;
 
@@ -89,7 +99,7 @@ class Update
 
     public function isChecked(): bool
     {
-        return (bool) $this->isChecked;
+        return (bool)$this->isChecked;
     }
 
     public function setIsChecked(bool $isChecked): void
@@ -132,14 +142,14 @@ class Update
         $this->affiliateId = $affiliateId;
     }
 
-    public function setError(string $error)
-    {
-        $this->error = $error;
-    }
-
     public function getError(): ?string
     {
         return $this->error;
+    }
+
+    public function setError(string $error)
+    {
+        $this->error = $error;
     }
 
     public function activate(): void

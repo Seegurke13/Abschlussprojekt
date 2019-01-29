@@ -1,0 +1,19 @@
+<p>
+    Dashboard
+</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Theme</th>
+        <th>Affiliate</th>
+        <th>Last Update</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let theme of themes" data-id="{{ theme.id }}">
+            <td>{{ theme.name }}</td>
+            <td>{{ theme.affiliateId }}</td>
+        </tr>
+    </tbody>
+</table>

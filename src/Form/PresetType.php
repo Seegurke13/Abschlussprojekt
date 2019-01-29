@@ -12,6 +12,7 @@ class PresetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('name')
             ->add('type')
             ->add('rules')

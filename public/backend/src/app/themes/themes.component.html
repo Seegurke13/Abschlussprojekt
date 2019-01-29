@@ -1,0 +1,24 @@
+<button (click)="createNew()">Create</button>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Affiliate</th>
+        <th>Last Update</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let theme of themes" data-id="{{ theme.id }}">
+            <td>{{ theme.name }}</td>
+            <td>{{ theme.affiliateId }}</td>
+            <td></td>
+            <td></td>
+            <td>
+                <button><a routerLink="/theme/{{theme.id}}">Edit</a></button>
+                <button>>Update</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

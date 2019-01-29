@@ -4,9 +4,7 @@
 namespace Unit\Service;
 
 
-use App\JQueryPhp\JQueryParser;
 use App\Manipulator\JQueryManipulator;
-use App\JQueryPhp\JQueryVisitor;
 use PHPUnit\Framework\TestCase;
 
 class JQueryManipulatorTest extends TestCase

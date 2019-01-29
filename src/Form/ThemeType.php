@@ -16,19 +16,23 @@ class ThemeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id')
             ->add('name', TextType::class)
             ->add('fields', CollectionType::class, [
                 'entry_type' => FieldType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
-            ->add('affiliateId', NumberType::class);
+            ->add('affiliateId', NumberType::class, [
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Theme::class,
+            'csrf_protection' => false,
         ]);
     }
 }

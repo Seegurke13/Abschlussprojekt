@@ -9,6 +9,7 @@ use App\Document\Theme;
 use App\Document\Update;
 use App\Event\GetImportEvent;
 use App\Event\GetUpdateEvent;
+use App\Exception\ExportException;
 use App\Exception\UpdateException;
 use App\Exporter\Exporter;
 use App\Importer\Importer;
@@ -38,7 +39,8 @@ class UpdateService
         HtmlManipulator $manipulator,
         EventDispatcherInterface $dispatcher,
         DocumentManager $documentManager
-    ) {
+    )
+    {
         $this->manipulator = $manipulator;
         $this->dispatcher = $dispatcher;
         $this->documentManager = $documentManager;
@@ -65,13 +67,20 @@ class UpdateService
         return $updateFields;
     }
 
+    /**
+     * @throws ExportException
+     */
     public function exportUpdate(Update $update, $env)
     {
-        $event = new GetUpdateEvent();
-        $event->setUpdate($update);
-        $event->setEnv($env);
+        try {
+            $event = new GetUpdateEvent();
+            $event->setUpdate($update);
+            $event->setEnv($env);
 
-        $this->dispatcher->dispatch(Exporter::EXPORT_START, $event);
+            $this->dispatcher->dispatch(Exporter::EXPORT_START, $event);
+        } catch (\Exception $exception) {
+            throw new ExportException($exception->getMessage());
+        }
     }
 
     /**
