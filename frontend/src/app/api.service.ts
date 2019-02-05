@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {DashboardModel} from "./model/dashboard.model";
 import {ThemeModel} from "./model/theme.model";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ApiService {
     private httpClient: HttpClient;
 
-    private dashboardUrl: string = 'http://paula.dev.local/';
-    private themeUrl: string = 'http://paula.dev.local/theme';
-    private presetUrl: string = 'http://paula.dev.local/preset';
+    private HOST = 'localhost/api';
+
+    private dashboardUrl: string = this.HOST + '/';
+    private themeUrl: string = this.HOST + '/theme';
+    private presetUrl: string = this.HOST + '/preset';
 
     constructor(httpClient: HttpClient) {
         this.httpClient = httpClient;
@@ -26,11 +27,11 @@ export class ApiService {
     }
 
     public createTheme(theme: ThemeModel) {
-      return this.httpClient.post(this.themeUrl + '/new', theme)
+        return this.httpClient.post(this.themeUrl + '/new', theme)
     }
 
     public saveTheme(theme: ThemeModel) {
-      return this.httpClient.put(this.themeUrl + '/' + theme.id + '/edit', theme);
+        return this.httpClient.put(this.themeUrl + '/' + theme.id + '/edit', theme);
     }
 
     public getPresets() {

@@ -17,8 +17,10 @@ services:
       - WEB_PHP_SOCKET=php:9000
 
   php:
+    image: paula/php
     build:
       context: docker/php/
+      dockerfile: Dockerfile
     ports:
       - 9000:9000
     depends_on:
@@ -43,4 +45,4 @@ services:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFexitIG_MONGODB_ADMINPASSWORD: root

@@ -34,7 +34,6 @@ export class ThemeComponent implements OnInit {
                 return carry;
             }, []);
         });
-        console.log(this.theme);
         this.apiService.saveTheme(themeData).subscribe();
     }
 

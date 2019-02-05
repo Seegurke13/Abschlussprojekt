@@ -1,0 +1,13 @@
+version: "3"
+services:
+  node:
+    image: paula/frontend-dev
+    container_name: paula-dev
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - 4200
+    volumes:
+      - ./src:/app/src
+      - ./../frontend/dist:/app/dist
