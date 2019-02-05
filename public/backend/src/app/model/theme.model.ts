@@ -7,4 +7,5 @@ export interface ThemeModel {
     affiliateId?: number;
     updates?: UpdateModel[];
     fields?: FieldModel[];
+    autoUpdates?: string[];
 }

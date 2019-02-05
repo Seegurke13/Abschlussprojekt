@@ -21,23 +21,25 @@ export class FieldComponent implements OnInit {
     ngOnInit() {
     }
 
-    public isPresetActive(presets: PresetModel[], preset: PresetModel): boolean {
-        if (presets === undefined || preset === undefined) {
+    public isActive(preset: PresetModel): boolean {
+        if (this.field.presets === undefined || preset === undefined) {
             return false;
         }
-        return (undefined !== presets.find((preset1: PresetModel) => { return preset.id === preset1.id}));
+
+        return this.field.presets.includes(preset.id);
     }
 
-    public changePresetState(id: number) {
-        let fieldPreset: PresetModel = this.field.presets.find((presetField: PresetModel) => { return presetField.id === id});
-        if (fieldPreset === undefined) {
-            console.log('test');
-            let preset: PresetModel = this.presets.find(function (element) {
-                return element.id === id;
+    public onClickPreset(id: number) {
+        if (this.field.presets === undefined || this.field.presets === null) {
+            this.field.presets = [];
+        }
+        if (this.field.presets.includes(id) === true) {
+            //deactivate
+            this.field.presets = this.field.presets.filter(function (value, index, arr) {
+                return value !== id;
             });
-            this.field.presets.push(preset);
         } else {
-            this.field.presets = this.field.presets.filter((preset: PresetModel) => { return preset.id !== id});
+            this.field.presets.push(id);
         }
     }
 }

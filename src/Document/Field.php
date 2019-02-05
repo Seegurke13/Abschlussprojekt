@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @MongoDB\EmbeddedDocument
@@ -27,7 +28,6 @@ class Field
     /**
      * @var Collection
      * @MongoDB\ReferenceMany(targetDocument="App\Document\Preset")
-     * @Groups({"rest"})
      */
     private $presets;
 
@@ -74,6 +74,17 @@ class Field
     public function getPresets(): ?Collection
     {
         return $this->presets;
+    }
+
+    /**
+     * @Groups({"rest"})
+     * @SerializedName("presets")
+     */
+    public function getPresetIds(): ?Collection
+    {
+        return $this->presets->map(function (Preset $item) {
+            return $item->getId();
+        });
     }
 
     /**

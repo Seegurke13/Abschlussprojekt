@@ -8,6 +8,7 @@ use App\Exception\UpdateException;
 use App\Form\ThemeType;
 use App\Repository\ThemeRepository;
 use App\Service\JsonSerializer;
+use App\Service\LastUpdateService;
 use App\Service\UpdateService;
 use App\JsonResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -37,18 +38,24 @@ class ThemeController extends AbstractController
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var LastUpdateService
+     */
+    private $lastUpdateService;
 
     public function __construct(
         DocumentManager $documentManager,
         ThemeRepository $themeRepository,
         UpdateService $updateService,
-        JsonSerializer $serializer
+        JsonSerializer $serializer,
+        LastUpdateService $lastUpdateService
     )
     {
         $this->documentManager = $documentManager;
         $this->themeRepository = $themeRepository;
         $this->updateService = $updateService;
         $this->serializer = $serializer;
+        $this->lastUpdateService = $lastUpdateService;
     }
 
     /**
@@ -60,12 +67,13 @@ class ThemeController extends AbstractController
         $themes = $this->themeRepository->findAll();
         /** @var Theme $theme */
         foreach ($themes as $theme) {
+            $update = $this->lastUpdateService->forTheme($theme);
             $viewVars[] = [
                 'id' => $theme->getId(),
                 'name' => $theme->getName(),
                 'affiliateId' => $theme->getId(),
-                'lastUpdate' => '',
-                'status' => ''
+                'lastUpdate' => $update !== null ? $update->getDate() : '',
+                'status' => $update !== null ? $update->isChecked() : '',
             ];
         }
 

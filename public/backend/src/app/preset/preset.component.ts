@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-preset',
@@ -6,6 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./preset.component.scss']
 })
 export class PresetComponent implements OnInit {
+  @Input()
+  public preset;
+
+  public types = [
+      'jquery',
+      'css',
+      'replace',
+  ];
 
   constructor() { }
 

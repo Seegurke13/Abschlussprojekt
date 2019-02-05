@@ -12,6 +12,7 @@ const routes: Routes = [
     {path: 'updates', component: UpdatesComponent},
     {path: 'presets', component: PresetsComponent},
     {path: 'theme/:id', component: ThemeComponent},
+    {path: 'presets/:id', component: PresetsComponent},
 ];
 
 @NgModule({

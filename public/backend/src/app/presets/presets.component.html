@@ -1,3 +1,21 @@
-<p>
-  presets works!
-</p>
+<h1>Presets</h1>
+
+<div class="presets container-fluid">
+    <div class="row">
+      <div class="col col-3">
+        <ul class="list-group">
+          <li class="list-group-item"
+              *ngFor="let preset of presets"
+              (click)="clickPreset(preset.id)">
+            {{ preset.name }}
+          </li>
+        </ul>
+      </div>
+      <div class="col col-9">
+        <div *ngIf="preset">
+          <app-preset [preset]="preset"></app-preset>
+          <button class="btn btn-info" (click)="savePreset()">Save</button>
+        </div>
+      </div>
+    </div>
+</div>

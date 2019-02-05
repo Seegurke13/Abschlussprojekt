@@ -25,7 +25,8 @@
     "symfony/dom-crawler": "^4.2",
     "symfony/css-selector": "^4.2",
     "symfony/monolog-bundle": "^3.3",
-    "nelmio/cors-bundle": "^1.5"
+    "nelmio/cors-bundle": "^1.5",
+    "symfony/twig-bundle": "^4.2"
   },
   "require-dev": {
     "symfony/debug": "^4.2",
