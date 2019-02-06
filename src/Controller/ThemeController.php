@@ -8,6 +8,7 @@ use App\Exception\UpdateException;
 use App\Form\ThemeType;
 use App\Repository\ThemeRepository;
 use App\Service\JsonSerializer;
+use App\Service\LastUpdateService;
 use App\Service\UpdateService;
 use App\JsonResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -37,22 +38,28 @@ class ThemeController extends AbstractController
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var LastUpdateService
+     */
+    private $lastUpdateService;
 
     public function __construct(
         DocumentManager $documentManager,
         ThemeRepository $themeRepository,
         UpdateService $updateService,
-        JsonSerializer $serializer
+        JsonSerializer $serializer,
+        LastUpdateService $lastUpdateService
     )
     {
         $this->documentManager = $documentManager;
         $this->themeRepository = $themeRepository;
         $this->updateService = $updateService;
         $this->serializer = $serializer;
+        $this->lastUpdateService = $lastUpdateService;
     }
 
     /**
-     * @Route("/", name="theme")
+     * @Route("/", name="theme", methods={"GET"})
      */
     public function index()
     {
@@ -60,12 +67,13 @@ class ThemeController extends AbstractController
         $themes = $this->themeRepository->findAll();
         /** @var Theme $theme */
         foreach ($themes as $theme) {
+            $update = $this->lastUpdateService->forTheme($theme);
             $viewVars[] = [
                 'id' => $theme->getId(),
                 'name' => $theme->getName(),
                 'affiliateId' => $theme->getId(),
-                'lastUpdate' => '',
-                'status' => ''
+                'lastUpdate' => $update !== null ? $update->getDate() : '',
+                'status' => $update !== null ? $update->isChecked() : '',
             ];
         }
 
@@ -73,7 +81,7 @@ class ThemeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="theme_new")
+     * @Route("/new", name="theme_new", methods={"POST"})
      */
     public function create(Request $request)
     {
@@ -92,7 +100,7 @@ class ThemeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="theme_edit", methods={"PUT","POST"})
+     * @Route("/{id}/edit", name="theme_edit", methods={"PUT"})
      */
     public function edit(Theme $theme, Request $request)
     {
@@ -109,7 +117,7 @@ class ThemeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="theme_show")
+     * @Route("/{id}", name="theme_show", methods={"GET"})
      */
     public function show(Theme $theme)
     {
@@ -117,7 +125,16 @@ class ThemeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/update", name="theme_update")
+     * @Route("/{id}/delete", methods={"DELETE"})
+     */
+    public function delete(Theme $theme)
+    {
+        $this->documentManager->remove($theme);
+        $this->documentManager->flush();
+    }
+
+    /**
+     * @Route("/{id}/update", name="theme_update", methods={"GET"})
      */
     public function update(Theme $theme)
     {

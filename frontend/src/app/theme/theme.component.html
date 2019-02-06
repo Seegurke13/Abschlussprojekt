@@ -1,21 +1,46 @@
-<div class="theme-edit" *ngIf="theme">
-    <div class="form-group">
-        <label>Name</label>
-        <input [(ngModel)]="theme.name" class="form-control" type="text">
+<h1>Theme Layout Editor</h1>
+<div class="theme-edit container-fluid" *ngIf="theme">
+    <div class="row">
+        <div class="form-group col-6">
+            <label>Name</label>
+            <input [(ngModel)]="theme.name" class="form-control" type="text">
+        </div>
+        <div class="form-group col-6">
+            <label>AffiliateId</label>
+            <input [(ngModel)]="theme.affiliateId" class="form-control w-25" type="number">
+        </div>
     </div>
-    <div class="form-group">
-        <label>AffiliateId</label>
-        <input [(ngModel)]="theme.affiliateId" class="form-control" type="number">
-    </div>
-    <div class="form-group">
-        <label>Fields</label>
-        <div class="fields" *ngIf="theme.fields">
-            <div *ngFor="let field of theme.fields" class="field">
-                <app-field [presets]="presets" [field]="field"></app-field>
+
+    <div class="form-group row">
+        <div class="col">
+            <label>Fields</label>
+            <div class="fields container-fluid" *ngIf="theme.fields">
+                <div *ngFor="let field of theme.fields" class="field row">
+                    <app-field class="col-10" [presets]="presets" [field]="field"></app-field>
+                    <div class="actions col-2">
+                        <button (click)="deleteField(field.id)" class="btn btn-block btn-danger">Remove</button>
+                        <button class="btn btn-block btn-success">Preview</button>
+                    </div>
+                </div>
             </div>
             <button (click)="addField()">Add Field</button>
         </div>
     </div>
 
-    <button (click)="saveTheme()">Save</button>
+    <div class="form-group row">
+        <div class="col">
+            <label>Auto Updates:</label>
+            <div class="fields container-fluid" *ngIf="theme.fields">
+                <div *ngFor="let autoUpdate of theme.autoUpdates" class="field row">
+
+                </div>
+            </div>
+            <button (click)="addAutoUpdate()">Add</button>
+        </div>
+    </div>
+
+    <div>
+        <button class="btn btn-success mr-1" (click)="saveTheme()">Save</button>
+        <button class="btn btn-danger mr-1">Update</button>
+    </div>
 </div>

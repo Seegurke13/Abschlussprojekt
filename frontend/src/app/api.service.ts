@@ -1,14 +1,16 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {DashboardModel} from "./model/dashboard.model";
 import {ThemeModel} from "./model/theme.model";
+import {PresetModel} from "./model/preset.model";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ApiService {
     private httpClient: HttpClient;
 
-    private HOST = 'localhost/api';
+    private HOST = 'http://localhost/api';
 
     private dashboardUrl: string = this.HOST + '/';
     private themeUrl: string = this.HOST + '/theme';
@@ -27,11 +29,11 @@ export class ApiService {
     }
 
     public createTheme(theme: ThemeModel) {
-        return this.httpClient.post(this.themeUrl + '/new', theme)
+      return this.httpClient.post(this.themeUrl + '/new', theme);
     }
 
     public saveTheme(theme: ThemeModel) {
-        return this.httpClient.put(this.themeUrl + '/' + theme.id + '/edit', theme);
+      return this.httpClient.put(this.themeUrl + '/' + theme.id + '/edit', theme);
     }
 
     public getPresets() {
@@ -40,5 +42,17 @@ export class ApiService {
 
     public getTheme(id: number) {
         return this.httpClient.get(this.themeUrl + '/' + id);
+    }
+
+    public savePreset(preset: PresetModel) {
+        return this.httpClient.post(this.presetUrl + '/' + preset.id, preset);
+    }
+
+    public createPreset(preset: PresetModel) {
+        return this.httpClient.put(this.presetUrl + '/new', preset);
+    }
+
+    public removePreset(id: number) {
+        return this.httpClient.delete(this.presetUrl + '/' + id + '/delete');
     }
 }

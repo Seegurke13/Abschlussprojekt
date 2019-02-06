@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ErrorResponse extends JsonResponse
 {
-    public function __construct(\Exception $exception, $status = 500, string $data = '')
+    public function __construct(\Exception $exception, $status = 500, string $data = null)
     {
         $data = [
             'status' => 'error',

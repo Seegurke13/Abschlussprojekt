@@ -27,23 +27,22 @@ export class ThemeComponent implements OnInit {
     }
 
     public saveTheme(): void {
-        let themeData = Object.assign({}, this.theme);
-        themeData.fields.forEach((value: FieldModel, index) => {
-            themeData.fields[index].presets.reduce((carry: any, preset: PresetModel) => {
-                carry.push(preset.id);
-                return carry;
-            }, []);
-        });
-        this.apiService.saveTheme(themeData).subscribe();
+        this.apiService.saveTheme(this.theme).subscribe();
     }
 
     public addField(): void {
         this.theme.fields.push({});
     }
 
+    public deleteField(id: string): void {
+        this.theme.fields = this.theme.fields.filter(function (item: FieldModel, index, arr) {
+           return item.id !== id;
+        });
+    }
+
     private getTheme() {
         let id: number = Number.parseInt(this.route.snapshot.paramMap.get('id'));
-        this.apiService.getTheme(id).subscribe((data: ThemeModel) => {this.theme = data});
+        this.apiService.getTheme(id).subscribe((data: ThemeModel) => {this.theme = data;});
     }
 
     private getPresets() {

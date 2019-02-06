@@ -11,6 +11,6 @@ COPY tslint.json /app/
 
 RUN ["npm", "install"]
 
-EXPOSE 4200/tcp
+EXPOSE 4200
 
-CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "500"]
+CMD ["npm", "start", "--", "--host", "localhost", "--poll", "500"]

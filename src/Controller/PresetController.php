@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Document\Preset;
+use App\Document\Theme;
 use App\Form\PresetType;
 use App\Repository\PresetRepository;
 use App\Service\ManipulatorContainer;
+use App\SuccessResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -53,7 +55,7 @@ class PresetController extends AbstractController
             $this->documentManager->persist($preset);
             $this->documentManager->flush();
 
-            return new JsonResponse(['status' => 'success']);
+            return new JsonResponse(['status' => 'success', 'id' => $preset->getId()]);
         }
 
         return new JsonResponse(['status' => 'error', $form->getErrors()]);
@@ -78,7 +80,7 @@ class PresetController extends AbstractController
         if ($form->isValid() === true) {
             $this->documentManager->flush();
 
-            return new JsonResponse(['status' => 'success']);
+            return new JsonResponse($preset->getId());
         }
 
         return new JsonResponse(['status' => 'error', $form->getErrors()]);
@@ -100,5 +102,16 @@ class PresetController extends AbstractController
     public function show(Preset $preset)
     {
         return $this->json($preset);
+    }
+
+    /**
+     * @Route("/{id}/delete")
+     */
+    public function delete(Preset $preset)
+    {
+        $this->documentManager->remove($preset);
+        $this->documentManager->flush();
+
+        return $this->json(['success' => true]);
     }
 }

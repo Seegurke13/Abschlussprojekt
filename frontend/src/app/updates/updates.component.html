@@ -1,3 +1,34 @@
-<p>
-  updates works!
-</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1>Last Updates</h1>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <table>
+                <thead>
+                    <tr>
+                        <th>AffiliateId</th>
+                        <th>ThemeName</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Environment</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let update of updates">
+                        <td>{{ update.affiliateId }}</td>
+                        <td>{{ update.themeName }}</td>
+                        <td>{{ update.date }}</td>
+                        <td>{{ update.status }}</td>
+                        <td>{{ update.lastExport }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

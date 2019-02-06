@@ -1,23 +1,28 @@
-<div class="field form-group" *ngIf="field">
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" [(ngModel)]="field.id">
+<div class="form-group row" *ngIf="field">
+    <div class="col col-6">
+        <div class="form-group">
+            <div class="d-flex justify-content-between">
+                <label>Name:</label>
+            </div>
+            <input type="text" class="form-control" [(ngModel)]="field.id">
+        </div>
+        <div class="form-group">
+            <label>Source:</label>
+            <input class="form-control" [(ngModel)]="field.source">
+        </div>
     </div>
-    <div class="form-group">
-        <label>Source:</label>
-        <input class="form-control" [(ngModel)]="field.source">
-    </div>
-    <div class="form-group">
-        <label>Presets:</label>
-        <div class="field-presets">
-            <button type="button" class="field-preset btn"
-                    (click)="changePresetState(preset.id)"
-                 [ngClass]="{'btn-secondary' : !isPresetActive(field.presets, preset),
-                            'btn-primary': isPresetActive(field.presets, preset)}"
-                 *ngFor="let preset of presets"
-            >
-                <label>{{ preset.name }}</label>
-            </button>
+    <div class="col col-6">
+        <div class="form-group">
+            <label>Presets:</label>
+            <div class="form-group field-presets">
+                <button class="field-preset btn mr-1 mb-1"
+                        [ngClass]='{"btn-primary": isActive(preset),
+                                "btn-secondary": !isActive(preset)}'
+                        *ngFor="let preset of presets"
+                        (click)="onClickPreset(preset.id)">
+                    {{ preset.name }}
+                </button>
+            </div>
         </div>
     </div>
 </div>
