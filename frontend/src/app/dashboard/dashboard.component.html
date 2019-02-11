@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1>Dashboard</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Theme</th>
+                    <th>Affiliate</th>
+                    <th>Last Update</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let theme of themes" data-id="{{ theme.id }}">
+                    <td>{{ theme.name }}</td>
+                    <td>{{ theme.affiliateId }}</td>
+                    <td>{{ theme.lastUpdate }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

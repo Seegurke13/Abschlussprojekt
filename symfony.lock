@@ -128,6 +128,9 @@
     "monolog/monolog": {
         "version": "1.24.0"
     },
+    "mtdowling/cron-expression": {
+        "version": "v1.2.1"
+    },
     "myclabs/deep-copy": {
         "version": "1.8.1"
     },
@@ -142,6 +145,9 @@
     },
     "nikic/php-parser": {
         "version": "v4.2.0"
+    },
+    "peppeocchi/php-cron-scheduler": {
+        "version": "v2.4"
     },
     "phar-io/manifest": {
         "version": "1.0.3"

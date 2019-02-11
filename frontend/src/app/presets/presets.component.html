@@ -1,0 +1,31 @@
+<div class="presets container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1>Presets</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-3">
+            <ul class="list-group">
+                <li class="btn btn-block btn-info" (click)="newPreset()">
+                    Add
+                </li>
+                <li class="list-group-item list-group-item-action d-flex justify-content-between"
+                    *ngFor="let preset_ of presets"
+                    (click)="clickPreset(preset_.id)"
+                    [ngClass]="{'active' : preset_.id === preset.id}"
+                >
+                    {{ preset_.name }}
+                    <span class="icon-cancel-circle text-danger align-middle" (click)="removePreset(preset_.id)"></span>
+                </li>
+            </ul>
+        </div>
+        <div class="col col-9">
+            <div *ngIf="preset">
+                <app-preset [preset]="preset"></app-preset>
+                <button class="btn btn-info" (click)="savePreset()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

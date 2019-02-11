@@ -3,6 +3,7 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use MongoDB\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +19,12 @@ class Preset
      * @Assert\Type("integer")
      */
     private $id;
+
+    /**
+     * @var Collection
+     * @MongoDB\ReferenceMany(targetDocument="App\Document\Field", mappedBy="presets")
+     */
+    private $fields;
 
     /**
      * @MongoDB\Field(type="string")

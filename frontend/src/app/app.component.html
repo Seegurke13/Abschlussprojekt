@@ -1,0 +1,49 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div class="container-fluid">
+    <nav class="row navbar">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+            <img class="w-100" src="../assets/snowtrex_logo.png" alt="logo">
+        </a>
+        <div class="col">
+            Affiliate Layout Updater
+        </div>
+    </nav>
+    <div class="row">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-2">
+                    <nav>
+                        <ul class="nav nav-pills">
+                            <li class="nav-item w-100">
+                                <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item w-100">
+                                <a class="nav-link" routerLink="/themes" routerLinkActive="active" >
+                                    Themes
+                                </a>
+                            </li>
+                            <li class="nav-item w-100">
+                                <a class="nav-link" routerLink="/updates" routerLinkActive="active" >
+                                    Updates
+                                </a>
+                            </li>
+                            <li class="nav-item w-100">
+                                <a class="nav-link" routerLink="/presets" routerLinkActive="active" >
+                                    Presets
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col col-10">
+                    <main role="main">
+                        <router-outlet></router-outlet>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

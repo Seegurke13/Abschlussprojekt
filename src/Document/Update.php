@@ -2,8 +2,11 @@
 
 namespace App\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use MongoTimestamp;
+use JMS\Serializer\Annotation as Serializer;
+use DateTime;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -17,12 +20,13 @@ class Update
      */
     private $id;
     /**
-     * @MongoDB\Field(type="timestamp")
+     * @MongoDB\Field(type="date")
      * @Groups({"rest"})
      */
     private $date;
     /**
      * @var string
+     * @MongoDB\Field(type="string")
      * @Groups({"rest"})
      */
     private $type;
@@ -39,12 +43,6 @@ class Update
      */
     private $affiliateId;
     /**
-     * @var bool
-     * @MongoDB\Field(type="boolean")
-     * @Groups({"rest"})
-     */
-    private $isChecked;
-    /**
      * @var array
      * @MongoDB\Field(type="hash", strategy="set")
      * @Groups({"rest"})
@@ -53,18 +51,26 @@ class Update
     /**
      * @var string
      * @MongoDB\Field(type="string")
-     * @Groups({"rest"})
      */
     private $error;
+
     /**
-     * @MongoDB\Field(type="timestamp")
+     * @MongoDB\EmbedMany(targetDocument="App\Document\Export")
      * @Groups({"rest"})
      */
-    private $lastActivate;
+    private $exports;
+    /**
+     * @var int
+     * @MongoDB\Field(type="integer")
+     * @Groups({"rest"})
+     */
+    private $status;
 
     public function __construct()
     {
         $this->fields = [];
+        $this->exports = new ArrayCollection();
+        $this->date = new DateTime();
     }
 
     public function getId()
@@ -77,12 +83,22 @@ class Update
         $this->id = $id;
     }
 
-    public function getDate(): ?MongoTimestamp
+
+    /**
+     * @Groups({"rest"})
+     * @Serializer\SerializedName("date")
+     */
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    public function setDate($date): void
+    public function getDateAsNumber()
+    {
+        return 1;
+    }
+
+    public function setDate(DateTime $date): void
     {
         $this->date = $date;
     }
@@ -95,16 +111,6 @@ class Update
     public function setType($type): void
     {
         $this->type = $type;
-    }
-
-    public function isChecked(): bool
-    {
-        return (bool)$this->isChecked;
-    }
-
-    public function setIsChecked(bool $isChecked): void
-    {
-        $this->isChecked = $isChecked;
     }
 
     public function getFields(): array
@@ -152,8 +158,28 @@ class Update
         $this->error = $error;
     }
 
-    public function activate(): void
+    public function getExports(): ?Collection
     {
-        $this->lastActivate = new MongoTimestamp();
+        return $this->exports;
+    }
+
+    public function setExports(Collection $exports): void
+    {
+        $this->exports = $exports;
+    }
+
+    public function addExport(Export $export): void
+    {
+        $this->exports->add($export);
+    }
+
+    public function setStatus(int $int)
+    {
+        $this->status = $int;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
     }
 }
