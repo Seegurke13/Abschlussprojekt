@@ -74,7 +74,7 @@ class ThemeController extends AbstractController
                 'name' => $theme->getName(),
                 'affiliateId' => $theme->getId(),
                 'lastUpdate' => $update !== null ? $update->getDate() : '',
-                'status' => $update !== null ? $update->isChecked() : '',
+                'status' => $update !== null ? $update->getStatus() : '',
             ];
         }
 

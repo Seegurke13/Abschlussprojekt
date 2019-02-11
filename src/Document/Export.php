@@ -4,6 +4,7 @@
 namespace App\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @MongoDB\EmbeddedDocument
@@ -13,11 +14,13 @@ class Export
     /**
      * @var \DateTime
      * @MongoDB\Field(type="date")
+     * @Groups({"rest"})
      */
     private $datetime;
     /**
      * @var string
      * @MongoDB\Field(type="string")
+     * @Groups({"rest"})
      */
     private $env;
 

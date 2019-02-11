@@ -85,7 +85,8 @@ class UpdateController extends AbstractController
             return new ErrorResponse($exception, 500, $message);
         }
 
-        $update->addExport(new Export(new \DateTime(), $env));
+        $export = new Export(new \DateTime(), $env);
+        $update->addExport($export);
         $this->documentManager->flush();
 
         return $this->json(['status' => 'success']);
@@ -137,6 +138,9 @@ class UpdateController extends AbstractController
      */
     public function approve(Update $update)
     {
+        $update->setStatus(1);
+        $this->documentManager->flush();
+
         return new SuccessResponse();
     }
 
@@ -145,6 +149,9 @@ class UpdateController extends AbstractController
      */
     public function decline(Update $update)
     {
+        $update->setStatus(-1);
+        $this->documentManager->flush();
+
         return new SuccessResponse();
     }
 

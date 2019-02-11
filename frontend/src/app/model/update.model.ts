@@ -1,5 +1,5 @@
-class ExportModel {
-    date?: number;
+interface ExportModel {
+    datetime?: number;
     env?: string;
 }
 

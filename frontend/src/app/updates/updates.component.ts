@@ -26,6 +26,14 @@ export class UpdatesComponent implements OnInit {
         this.apiService.exportUpdate(id).subscribe();
     }
 
+    public select(id: number) {
+        if (this.selection === id) {
+            this.selection = null;
+        } else {
+            this.selection = id;
+        }
+    }
+
     public preview(id: number) {
 
     }

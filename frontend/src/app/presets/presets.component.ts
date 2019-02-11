@@ -9,6 +9,7 @@ import {ApiService} from "../api.service";
 })
 export class PresetsComponent implements OnInit {
   private presets: PresetModel[];
+
   public preset: PresetModel;
 
   private apiService: ApiService;
@@ -21,6 +22,12 @@ export class PresetsComponent implements OnInit {
       this.apiService.getPresets().subscribe((data: PresetModel[]) => {
           this.presets = data;
       });
+  }
+
+  public isSelected(id: number) {
+      return typeof this.preset !== "undefined"
+          && typeof this.preset.id === "number"
+          && this.preset.id === id;
   }
 
   public clickPreset(id: number) {
