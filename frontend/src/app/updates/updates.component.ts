@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UpdateModel} from "../model/update.model";
+import {ApiService} from "../api.service";
 
 @Component({
     selector: 'app-updates',
@@ -7,12 +8,48 @@ import {UpdateModel} from "../model/update.model";
     styleUrls: ['./updates.component.scss']
 })
 export class UpdatesComponent implements OnInit {
-    private updates: UpdateModel[];
+    public updates: UpdateModel[];
+    public selection: number;
+    private apiService: ApiService;
 
-    constructor() {
+    constructor(apiService: ApiService) {
+        this.apiService = apiService;
     }
 
     ngOnInit() {
+        this.apiService.getUpdates().subscribe((data: UpdateModel[]) => {
+            this.updates = data;
+        });
+    }
+
+    public exportUpdate(id: number) {
+        this.apiService.exportUpdate(id).subscribe();
+    }
+
+    public select(id: number) {
+        if (this.selection === id) {
+            this.selection = null;
+        } else {
+            this.selection = id;
+        }
+    }
+
+    public preview(id: number) {
+
+    }
+
+    public approve(id: number) {
+        this.apiService.updateApprove(id).subscribe();
+        this.updates.find((update: UpdateModel) => {
+            return update.id === id;
+        }).status = 1;
+    }
+
+    public decline(id: number) {
+        this.apiService.updateDecline(id).subscribe();
+        this.updates.find((update: UpdateModel) => {
+            return update.id === id;
+        }).status = -1;
     }
 
 }

@@ -23,6 +23,13 @@ export class ThemesComponent implements OnInit {
         this.theme = {};
     }
 
+    public createNewTheme() {
+        this.apiService.createTheme(this.theme).subscribe(() => {
+            this.themes.push(this.theme);
+            this.theme = null;
+        });
+    }
+
     ngOnInit() {
         this.apiService.getThemes().subscribe((data: DashboardModel[]) => {this.themes = data});
     }

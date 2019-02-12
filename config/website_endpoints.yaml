@@ -1,8 +1,8 @@
 parameters:
     website_endpoints:
         environments:
-            rc: 'http://paula.dev.local/webseite'
-            live: 'http://paula.dev.local/webseite'
+            rc: 'http://paula.dev.local/api/webseite'
+            live: 'http://paula.dev.local/api/webseite'
         #if exported environment is this, no restore on failure if
         #to disable set to false
         dev_environment: 'rc'

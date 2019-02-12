@@ -5,13 +5,14 @@ import {UpdatesComponent} from "./updates/updates.component";
 import {PresetsComponent} from "./presets/presets.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {ThemeComponent} from "./theme/theme.component";
+import {UpdateComponent} from "./update/update.component";
 
 const routes: Routes = [
-    {path: '', component: DashboardComponent},
+    {path: '', component: UpdatesComponent},
     {path: 'themes', component: ThemesComponent},
     {path: 'updates', component: UpdatesComponent},
     {path: 'presets', component: PresetsComponent},
-    {path: 'theme/:id', component: ThemeComponent},
+    {path: 'themes/:id', component: ThemeComponent},
     {path: 'presets/:id', component: PresetsComponent},
 ];
 

@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Document\Export;
 use App\Document\Update;
 use App\ErrorResponse;
 use App\Exception\ExportException;
+use App\JsonResponse;
 use App\Repository\UpdateRepository;
+use App\Service\JsonSerializer;
 use App\Service\UpdateService;
+use App\SuccessResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -14,9 +18,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/update")
+ */
 class UpdateController extends AbstractController
 {
-    const DEFAULT_ENV = 'dev';
+    const DEFAULT_ENV = 'live';
     const RESTORE_PREVIOUS = true;
     /**
      * @var UpdateService
@@ -34,28 +41,34 @@ class UpdateController extends AbstractController
      * @var UpdateRepository
      */
     private $updateRepository;
+    /**
+     * @var JsonSerializer
+     */
+    private $serializer;
 
     public function __construct(
         UpdateService $updateService,
         DocumentManager $documentManager,
         LoggerInterface $logger,
-        UpdateRepository $updateRepository
+        UpdateRepository $updateRepository,
+        JsonSerializer $serializer
     )
     {
         $this->updateService = $updateService;
         $this->documentManager = $documentManager;
         $this->logger = $logger;
         $this->updateRepository = $updateRepository;
+        $this->serializer = $serializer;
     }
 
     /**
-     * @Route("/update/{update}/export", name="update_export")
+     * @Route("/{update}/export", name="update_export")
      */
     public function export(Update $update, Request $request)
     {
-        $env = $request->get('env', self::DEFAULT_ENV);
-        $isDef = $env === $this->getParameter('website_endpoints')['dev_environment'];
-        $restoreOnFail = $request->get('restore', self::RESTORE_PREVIOUS && !$isDef);
+        $env = $request->query->get('env', self::DEFAULT_ENV);
+        $isDev = $env === $this->getParameter('website_endpoints')['dev_environment'];
+        $restoreOnFail = $request->get('restore', self::RESTORE_PREVIOUS && !$isDev);
 
         try {
             $this->exportUpdate($update, $env);
@@ -71,7 +84,9 @@ class UpdateController extends AbstractController
 
             return new ErrorResponse($exception, 500, $message);
         }
-        $update->activate();
+
+        $export = new Export(new \DateTime(), $env);
+        $update->addExport($export);
         $this->documentManager->flush();
 
         return $this->json(['status' => 'success']);
@@ -116,5 +131,39 @@ class UpdateController extends AbstractController
 
             throw $exception;
         }
+    }
+
+    /**
+     * @Route("/{id}/approve", name="update_approve")
+     */
+    public function approve(Update $update)
+    {
+        $update->setStatus(1);
+        $this->documentManager->flush();
+
+        return new SuccessResponse();
+    }
+
+    /**
+     * @Route("/id/decline", name="update_decline")
+     */
+    public function decline(Update $update)
+    {
+        $update->setStatus(-1);
+        $this->documentManager->flush();
+
+        return new SuccessResponse();
+    }
+
+    /**
+     * @Route("/")
+     */
+    public function index()
+    {
+        $updates = $this->updateRepository->findAll();
+
+        $json = $this->serializer->serialize($updates);
+
+        return new JsonResponse($json);
     }
 }

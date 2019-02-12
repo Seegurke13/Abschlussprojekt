@@ -10,19 +10,30 @@ import {ApiService} from "../api.service";
 export class PresetsComponent implements OnInit {
   private presets: PresetModel[];
 
-  private preset: PresetModel;
-    private apiService: ApiService;
+  public preset: PresetModel;
+
+  private apiService: ApiService;
 
   constructor(apiService: ApiService) {
       this.apiService = apiService;
   }
 
   ngOnInit() {
-      this.apiService.getPresets().subscribe((data: PresetModel[]) => {this.presets = data;});
+      this.apiService.getPresets().subscribe((data: PresetModel[]) => {
+          this.presets = data;
+      });
+  }
+
+  public isSelected(id: number) {
+      return typeof this.preset !== "undefined"
+          && typeof this.preset.id === "number"
+          && this.preset.id === id;
   }
 
   public clickPreset(id: number) {
-      this.preset = this.presets.find((data: PresetModel) => { return data.id === id});
+      this.preset = this.presets.find((data: PresetModel) => {
+          return data.id === id
+      });
   }
 
   public newPreset() {
@@ -30,9 +41,11 @@ export class PresetsComponent implements OnInit {
   }
 
   public savePreset() {
-      if (this.preset.id === undefined) {
+      if (typeof this.preset.id === "undefined") {
           this.presets.push(this.preset);
-          this.apiService.createPreset(this.preset).subscribe((data: any) => {this.preset.id = data.id });
+          this.apiService.createPreset(this.preset).subscribe((data: any) => {
+              this.preset.id = data.id
+          });
       } else {
           this.apiService.savePreset(this.preset).subscribe();
       }

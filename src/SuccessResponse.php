@@ -8,6 +8,6 @@ class SuccessResponse extends JsonResponse
 {
     public function __construct()
     {
-        parent::__construct(['success' => true], 200);
+        parent::__construct(json_encode(['success' => true]), 200);
     }
 }

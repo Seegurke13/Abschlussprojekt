@@ -5,19 +5,21 @@
         </div>
     </div>
 
-
     <div class="row">
         <div class="col col-3">
             <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between"
-                    *ngFor="let preset of presets"
-                    (click)="clickPreset(preset.id)"
+                <li class="btn btn-block btn-info" (click)="newPreset()">
+                    Add
+                </li>
+                <li class="list-group-item list-group-item-action d-flex justify-content-between"
+                    *ngFor="let preset_ of presets"
+                    (click)="clickPreset(preset_.id)"
+                    [ngClass]="{'active' : isSelected(preset_.id)}"
                 >
-                    <span>{{ preset.name }}</span>
-                    <span class="icon-cancel-circle text-danger" (click)="removePreset(preset.id)"></span>
+                    {{ preset_.name }}
+                    <span class="icon-cancel-circle text-danger align-middle" (click)="removePreset(preset_.id)"></span>
                 </li>
             </ul>
-            <button class="btn btn-block btn-info" (click)="newPreset()">New</button>
         </div>
         <div class="col col-9">
             <div *ngIf="preset">

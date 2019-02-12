@@ -6,11 +6,12 @@ use App\Document\Theme;
 use App\ErrorResponse;
 use App\Exception\UpdateException;
 use App\Form\ThemeType;
+use App\JsonResponse;
 use App\Repository\ThemeRepository;
 use App\Service\JsonSerializer;
 use App\Service\LastUpdateService;
 use App\Service\UpdateService;
-use App\JsonResponse;
+use App\SuccessResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,7 +74,7 @@ class ThemeController extends AbstractController
                 'name' => $theme->getName(),
                 'affiliateId' => $theme->getId(),
                 'lastUpdate' => $update !== null ? $update->getDate() : '',
-                'status' => $update !== null ? $update->isChecked() : '',
+                'status' => $update !== null ? $update->getStatus() : '',
             ];
         }
 
@@ -136,9 +137,10 @@ class ThemeController extends AbstractController
     /**
      * @Route("/{id}/update", name="theme_update", methods={"GET"})
      */
-    public function update(Theme $theme)
+    public function update(Theme $theme, Request $request)
     {
         $update = $this->updateService->createUpdate($theme);
+        $update->setType($request->get('type', 'manual'));
 
         $themeFields = $theme->getFields();
         try {
@@ -149,9 +151,14 @@ class ThemeController extends AbstractController
         } catch (UpdateException $exception) {
             return new ErrorResponse($exception);
         }
-        return $this->forward(UpdateController::class.'::export',[
-            'update' => $update,
-            'env' => 'rc',
-        ]);
+
+        if (boolval($request->get('export', true)) === true) {
+            return $this->forward(UpdateController::class . '::export', [
+                'update' => $update,
+                'env' => 'rc',
+            ]);
+        } else {
+            return new SuccessResponse();
+        }
     }
 }

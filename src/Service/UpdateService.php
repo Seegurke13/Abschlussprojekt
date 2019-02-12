@@ -108,9 +108,10 @@ class UpdateService
     public function createUpdate(Theme $theme): Update
     {
         $update = new Update();
-        $update->setDate(new \MongoTimestamp());
+        $update->setDate(new \DateTime());
         $update->setAffiliateId($theme->getAffiliateId());
         $update->setThemeName($theme->getName());
+        $update->setStatus(0);
 
         return $update;
     }

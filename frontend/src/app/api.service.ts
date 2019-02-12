@@ -10,11 +10,13 @@ import {PresetModel} from "./model/preset.model";
 export class ApiService {
     private httpClient: HttpClient;
 
-    private HOST = 'http://localhost/api';
+    private HOST = 'http://paula.dev.local/api';
+    // private HOST = 'http://localhost/api';
 
     private dashboardUrl: string = this.HOST + '/';
     private themeUrl: string = this.HOST + '/theme';
     private presetUrl: string = this.HOST + '/preset';
+    private updateUrl: string = this.HOST + '/update';
 
     constructor(httpClient: HttpClient) {
         this.httpClient = httpClient;
@@ -54,5 +56,21 @@ export class ApiService {
 
     public removePreset(id: number) {
         return this.httpClient.delete(this.presetUrl + '/' + id + '/delete');
+    }
+
+    public getUpdates() {
+        return this.httpClient.get(this.updateUrl);
+    }
+
+    public updateApprove(id: number) {
+        return this.httpClient.get(this.updateUrl + '/' + id + '/approve');
+    }
+
+    public updateDecline(id: number) {
+        return this.httpClient.get(this.updateUrl + '/' + id + '/decline');
+    }
+
+    public exportUpdate(id: number) {
+        return this.httpClient.get(this.updateUrl + '/' + id + '/export');
     }
 }

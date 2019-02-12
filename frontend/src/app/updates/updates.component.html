@@ -8,25 +8,48 @@
 
     <div class="row">
         <div class="col">
-            <table>
+            <table class="table">
                 <thead>
-                    <tr>
-                        <th>AffiliateId</th>
-                        <th>ThemeName</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Environment</th>
-                    </tr>
+                <tr>
+                    <th>AffiliateId</th>
+                    <th>ThemeName</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
 
                 <tbody>
-                    <tr *ngFor="let update of updates">
+                <ng-container *ngFor="let update of updates">
+                    <tr (click)="select(update.id)">
                         <td>{{ update.affiliateId }}</td>
                         <td>{{ update.themeName }}</td>
                         <td>{{ update.date }}</td>
-                        <td>{{ update.status }}</td>
-                        <td>{{ update.lastExport }}</td>
+                        <td *ngIf="update.status === 1"><span class="btn btn-success">Approved</span></td>
+                        <td *ngIf="update.status === -1"><span class="btn btn-danger">Declined</span></td>
+                        <td *ngIf="update.status === 0">
+                            <span class="btn btn-success mr-1" (click)="approve(update.id)">Approve</span>
+                            <span class="btn btn-danger mr-1" (click)="decline(update.id)">Decline</span>
+                        </td>
+                        <td>{{ update.type }}</td>
+                        <td>
+                            <button class="btn btn-info mr-1" (click)="preview(update.id)">Preview</button>
+                            <button class="btn btn-warning mr-1" (click)="exportUpdate(update.id)">Export</button>
+                        </td>
                     </tr>
+                    <tr *ngIf="selection === update.id">
+                        <td colspan="5">
+                            Exports:
+                            <table class="table">
+                                <tr *ngFor="let exports of update.exports">
+                                    <td>{{ exports.date }}</td>
+                                    <td>{{ exports.env }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </ng-container>
                 </tbody>
             </table>
         </div>

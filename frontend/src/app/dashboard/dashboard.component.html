@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col">
-            <table>
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Theme</th>
@@ -19,6 +19,7 @@
                 <tr *ngFor="let theme of themes" data-id="{{ theme.id }}">
                     <td>{{ theme.name }}</td>
                     <td>{{ theme.affiliateId }}</td>
+                    <td>{{ theme.lastUpdate }}</td>
                 </tr>
                 </tbody>
             </table>
