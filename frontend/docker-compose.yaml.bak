@@ -9,5 +9,5 @@ services:
     ports:
       - "4200:4200"
     volumes:
-      - ./src:/app/src
-      - ./../frontend/dist:/app/dist
+      - src:/app/src
+      - dist:/app/dist

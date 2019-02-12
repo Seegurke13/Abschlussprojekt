@@ -4,6 +4,7 @@ services:
     image: webdevops/apache-dev:latest
     depends_on:
       - php
+      - frontend
     volumes:
       - ./:/app/
       - ./:/docker/
@@ -46,3 +47,17 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFexitIG_MONGODB_ADMINPASSWORD: root
+
+  frontend:
+    image: paula/frontend-builder
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/src:/app/src
+      - dist:/app/dist
+    ports:
+      - "4200:4200"
+
+volumes:
+  dist:
