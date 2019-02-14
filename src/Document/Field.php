@@ -27,7 +27,8 @@ class Field
     private $source;
     /**
      * @var Collection
-     * @MongoDB\ReferenceMany(targetDocument="App\Document\Preset", mappedBy="fields", storeAs="id")
+     * @MongoDB\ReferenceMany(targetDocument="App\Document\Preset", storeAs="id")
+     * @Groups({"rest"})
      */
     private $presets;
 

@@ -5,7 +5,8 @@ namespace App\Document;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Serializer;
 use DateTime;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -31,28 +32,11 @@ class Update
      */
     private $type;
     /**
-     * @var string
-     * @MongoDB\Field(type="string")
-     * @Groups({"rest"})
-     */
-    private $themeName;
-    /**
-     * @var int
-     * @MongoDB\Field(type="integer")
-     * @Groups({"rest"})
-     */
-    private $affiliateId;
-    /**
      * @var array
      * @MongoDB\Field(type="hash", strategy="set")
      * @Groups({"rest"})
      */
     private $fields;
-    /**
-     * @var string
-     * @MongoDB\Field(type="string")
-     */
-    private $error;
 
     /**
      * @MongoDB\EmbedMany(targetDocument="App\Document\Export")
@@ -73,7 +57,7 @@ class Update
         $this->date = new DateTime();
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -83,19 +67,13 @@ class Update
         $this->id = $id;
     }
 
-
     /**
      * @Groups({"rest"})
-     * @Serializer\SerializedName("date")
+     * @SerializedName("date")
      */
     public function getDate(): ?DateTime
     {
         return $this->date;
-    }
-
-    public function getDateAsNumber()
-    {
-        return 1;
     }
 
     public function setDate(DateTime $date): void
@@ -103,7 +81,7 @@ class Update
         $this->date = $date;
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -128,17 +106,17 @@ class Update
         $this->fields[$name] = $html;
     }
 
-    public function getThemeName(): string
+    public function getThemeName(): ?string
     {
         return $this->themeName;
     }
 
-    public function setThemeName(string $themeName): void
+    public function setThemeName(?string $themeName): void
     {
         $this->themeName = $themeName;
     }
 
-    public function getAffiliateId(): int
+    public function getAffiliateId(): ?int
     {
         return $this->affiliateId;
     }
@@ -146,16 +124,6 @@ class Update
     public function setAffiliateId(?int $affiliateId): void
     {
         $this->affiliateId = $affiliateId;
-    }
-
-    public function getError(): ?string
-    {
-        return $this->error;
-    }
-
-    public function setError(string $error)
-    {
-        $this->error = $error;
     }
 
     public function getExports(): ?Collection

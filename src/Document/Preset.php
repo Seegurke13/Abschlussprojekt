@@ -21,12 +21,6 @@ class Preset
     private $id;
 
     /**
-     * @var Collection
-     * @MongoDB\ReferenceMany(targetDocument="App\Document\Field", mappedBy="presets")
-     */
-    private $fields;
-
-    /**
      * @MongoDB\Field(type="string")
      * @Assert\NotBlank
      */

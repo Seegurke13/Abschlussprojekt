@@ -32,3 +32,4 @@ services:
         tags:
             - { name: request.param_converter, converter: doctrine.odm }
         arguments: ['@doctrine_mongodb']
+

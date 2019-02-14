@@ -8,7 +8,7 @@ import {ApiService} from "../api.service";
   styleUrls: ['./presets.component.scss']
 })
 export class PresetsComponent implements OnInit {
-  private presets: PresetModel[];
+  private presets: PresetModel[] = [];
 
   public preset: PresetModel;
 
@@ -41,6 +41,7 @@ export class PresetsComponent implements OnInit {
   }
 
   public savePreset() {
+      console.log(this.preset);
       if (typeof this.preset.id === "undefined") {
           this.presets.push(this.preset);
           this.apiService.createPreset(this.preset).subscribe((data: any) => {

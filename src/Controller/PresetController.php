@@ -44,7 +44,7 @@ class PresetController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="preset_create")
+     * @Route("/new", name="preset_create", methods={"PUT"})
      */
     public function create(Request $request)
     {
@@ -71,7 +71,7 @@ class PresetController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="preset_edit")
+     * @Route("/{id}/edit", name="preset_edit", methods={"POST"})
      */
     public function edit(Preset $preset, Request $request)
     {
@@ -88,7 +88,7 @@ class PresetController extends AbstractController
     }
 
     /**
-     * @Route("/", name="preset")
+     * @Route("/", name="preset", methods={"GET"})
      */
     public function index()
     {
@@ -98,7 +98,7 @@ class PresetController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="preset_show")
+     * @Route("/{id}", name="preset_show", methods={"GET"})
      */
     public function show(Preset $preset)
     {
@@ -106,7 +106,7 @@ class PresetController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/delete")
+     * @Route("/{id}/delete", methods={"DELETE"})
      */
     public function delete(Preset $preset)
     {
