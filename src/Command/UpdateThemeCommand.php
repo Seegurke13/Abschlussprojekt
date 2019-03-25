@@ -7,7 +7,6 @@ namespace App\Command;
 
 use App\Repository\ThemeRepository;
 use App\Service\UpdateService;
-use phpDocumentor\Reflection\Types\Self_;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

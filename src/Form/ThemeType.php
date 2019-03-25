@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Document\Field;
 use App\Document\Theme;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

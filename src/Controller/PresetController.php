@@ -3,13 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Document\Field;
 use App\Document\Preset;
-use App\Document\Theme;
 use App\Form\PresetType;
 use App\Repository\PresetRepository;
 use App\Service\ManipulatorContainer;
-use App\SuccessResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -6,10 +6,8 @@ namespace App\DependencyInjection;
 
 
 use App\Service\ManipulatorContainer;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class ManipulatorCompilerPass implements CompilerPassInterface
