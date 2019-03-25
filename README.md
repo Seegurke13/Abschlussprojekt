@@ -16,11 +16,24 @@ Now, you have these urls
 * localhost:8081 (MongoExpress)
 
 ## Development
+
+#### Folder Structure
 * /src => PHP Source Code
 * /frontend => Angular 6 Frontend App (Node)
 * /public => Web root folder
 
 On frontend app build finish, the dist files are moved to the public folder.
+
+#### Script Files
+> inside ./dev, most of them are only wrapper to run inside container
+
+|Name           |Description                                    |
+|:--------------|:----------------------------------------------|
+|build          |Build frontend app and migrate it to /public   |
+|composer       |Run Composer                                   |
+|console        |Run Symfony Console                            |
+|demo           |Import Demo Data (Fixtures)                    |
+|php            |Run PHP                                        |
 
 ## Docker Images
 * Apache2 (HTTP Server)
@@ -49,3 +62,4 @@ On frontend app build finish, the dist files are moved to the public folder.
 |update_approve                 |ANY      |/api/update/{id}/approve   |  
 |update_decline                 |ANY      |/api/update/{id}/decline   |  
 |app_update_index               |ANY      |/api/update/               |
+
