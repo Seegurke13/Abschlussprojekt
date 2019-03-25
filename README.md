@@ -17,8 +17,17 @@ Now, you have these urls
 
 ## Development
 * /src => PHP Source Code
-* /frontend => Angular 6 Frontend App (Node Package)
+* /frontend => Angular 6 Frontend App (Node)
 * /public => Web root folder
+
+On frontend app build finish, the dist files are moved to the public folder.
+
+## Docker Images
+* Apache2 (HTTP Server)
+* Frontend (Angular 6 Dev Server)
+* Mongo (MongoDB)
+* Mongo-Express (Mongo Express)
+* Php (PHP-FPM)
 
 ## API Routes
 |Name|Method|Url|
