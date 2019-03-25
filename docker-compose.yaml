@@ -9,7 +9,7 @@ services:
       - ./:/app/
       - ./:/docker/
     ports:
-      - 800:80
+      - 80:80
       - 443:443
     links:
       - php
