@@ -146,7 +146,7 @@ class UpdateController extends AbstractController
     }
 
     /**
-     * @Route("/id/decline", name="update_decline")
+     * @Route("/{id}/decline", name="update_decline")
      */
     public function decline(Update $update)
     {
