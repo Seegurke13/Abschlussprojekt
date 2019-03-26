@@ -11,6 +11,7 @@ use App\Repository\ThemeRepository;
 use App\Repository\UpdateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class IndexController extends AbstractController
 {
@@ -32,7 +33,7 @@ class IndexController extends AbstractController
     }
 
     /**
-     * @Route("/", name="index")
+     * @Route("/index", name="index")
      */
     public function index()
     {
@@ -61,5 +62,21 @@ class IndexController extends AbstractController
         }
 
         return $this->json($viewModel);
+    }
+
+    /**
+     * @Route("/", name="api")
+     */
+    public function routes(RouterInterface $router)
+    {
+        $routes = $router->getRouteCollection();
+
+        $data = [];
+        foreach ($routes as $key => $value) {
+            $data[$key]['route'] = $value->getPath();
+            $data[$key]['name'] = $key;
+        }
+
+        return $this->json($data);
     }
 }

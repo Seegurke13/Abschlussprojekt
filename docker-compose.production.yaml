@@ -57,8 +57,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend/src:/app/src
-    ports:
-      - "4200:4200"
+      - ./public:/app/dist
+    command: ["npm", "run-script", "build"]
 
 volumes:
   dist:

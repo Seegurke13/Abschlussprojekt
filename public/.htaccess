@@ -3,7 +3,7 @@
 # mod_rewrite). Additionally, this reduces the matching process for the
 # start page (path "/") because otherwise Apache will apply the rewriting rules
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
-DirectoryIndex index.php
+DirectoryIndex index.html
 
 # By default, Apache does not evaluate symbolic links if you did not enable this
 # feature in your server configuration. Uncomment the following line if you
@@ -46,6 +46,7 @@ DirectoryIndex index.php
     # - use Apache >= 2.3.9 and replace all L flags by END flags and remove the
     #   following RewriteCond (best solution)
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteCond %{REQUEST_URI} ^/api
     RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 
     # If the requested filename exists, simply serve it.
@@ -53,6 +54,7 @@ DirectoryIndex index.php
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
+    RewriteCond %{REQUEST_URI} ^/api
     # Rewrite all other queries to the front controller.
     RewriteRule ^ %{ENV:BASE}/index.php [L]
 </IfModule>
