@@ -25,7 +25,8 @@ class ThemeType extends AbstractType
             ])
             ->add('affiliateId', NumberType::class, [
                 'required' => false,
-            ]);
+            ])
+            ->add('updates', CollectionType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

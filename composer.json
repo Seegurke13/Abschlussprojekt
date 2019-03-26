@@ -25,7 +25,9 @@
     "scotteh/php-dom-wrapper": "^1.0",
     "nelmio/cors-bundle": "^1.5",
     "peppeocchi/php-cron-scheduler": "^2.4",
-    "doctrine/mongodb-odm": "^1.2"
+    "doctrine/mongodb-odm": "^1.2",
+    "ext-iconv": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "symfony/debug": "^4.2",

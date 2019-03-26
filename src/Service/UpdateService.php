@@ -14,6 +14,7 @@ use App\Exception\ExportException;
 use App\Exception\UpdateException;
 use App\Exporter\Exporter;
 use App\Importer\Importer;
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -22,6 +23,8 @@ class UpdateService
 {
     public const UPDATE_FINISH = 'updater.finish';
     public const UPDATE_START = 'update.start';
+
+    private const DEST_CHARSET = 'UTF-8//IGNORE';
 
     /**
      * @var HtmlManipulator
@@ -92,24 +95,29 @@ class UpdateService
         $updatedValues = [];
         /** @var Field $field */
         foreach ($themeFields as $fieldName => $field) {
-            if ($fields[$fieldName] === null) {
+            if ($fields[$fieldName] === null || empty($fieldName[$fieldName])) {
                 throw new UpdateException("no html in field {$fieldName}");
             }
             $html = $this->manipulator->transformHtml(
                 $fields[$fieldName],
                 $field->getPresets()
             );
-            $html = iconv('UTF-8', 'UTF-8//IGNORE', $html);
+
+            $originalCharset = mb_detect_encoding($html, mb_detect_order(), true);
+            $html = iconv($originalCharset, self::DEST_CHARSET, $html);
             $updatedValues[$fieldName] = $html;
         }
 
         return $updatedValues;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function createUpdate(Theme $theme): Update
     {
         $update = new Update();
-        $update->setDate(new \DateTime());
+        $update->setDate(new DateTime());
         $update->setAffiliateId($theme->getAffiliateId());
         $update->setThemeName($theme->getName());
         $update->setStatus(0);

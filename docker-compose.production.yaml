@@ -61,5 +61,4 @@ services:
     command: ["npm", "run-script", "build"]
 
 volumes:
-  dist:
   mongo-db:
