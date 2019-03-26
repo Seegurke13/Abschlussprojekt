@@ -3,16 +3,21 @@
 > Manage Partner Layouts to import HTML. Create and combine Presets for HTML Manipulation.
 
 ## Installation
-For complete environment setup run
+For complete dev environment setup run
 ```sh
 docker-compose up -d
+```
+
+Or for prod Environment
+```sh
+docker-compose -f docker-compose.production.yaml up -d 
 ```
 
 Now, you have these urls
 
 * localhost:80/api (Backend)
 * localhost:80 (Frontend)
-* localhost:4200 (Frontend Angular Dev Server)
+* localhost:4200 (Frontend Angular Dev Server, only Dev)
 * localhost:8081 (MongoExpress)
 
 ## Development
