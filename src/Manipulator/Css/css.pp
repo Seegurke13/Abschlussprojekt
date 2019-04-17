@@ -1,9 +1,10 @@
 %skip   space           \s
 %token  semicolon       ;
+%token  equals
 %token  string          [^;]+
 
 #expression:
-    selector() ::semicolon:: action()
+    selector() ::equals:: action() ::semicolon::
 
 #selector:
     <string>
