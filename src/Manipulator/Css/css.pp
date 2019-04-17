@@ -1,6 +1,6 @@
 %skip   space           \s
 %token  semicolon       ;
-%token  equals
+%token  equals          :=
 %token  string          [^;]+
 
 #expression:
