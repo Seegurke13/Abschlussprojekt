@@ -1,0 +1,36 @@
+@startuml
+
+left to right direction
+
+actor user
+actor website
+actor datenbank
+
+rectangle Paula {
+    usecase UC1 as "Partner verwalten"
+    usecase UC2 as "Preset verwalten"
+    usecase UC6 as "Updates anzeigen"
+    usecase UC7 as "Update abnehmen"
+    usecase UC4 as "Preset Speichern"
+    usecase UC3 as "Update exportieren"
+    usecase UC5 as "Partner speichern"
+}
+
+user --> UC1
+user --> UC3
+user --> UC7
+
+UC1 .> UC2: <<include>>
+UC6 <. UC3: <<include>>
+
+UC1 .> UC5: <<include>>
+UC2 .> UC4: <<include>>
+
+UC7 .> UC6: <<include>>
+
+UC5 --> datenbank
+UC4 --> datenbank
+
+UC3 --> website
+
+@enduml

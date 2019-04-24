@@ -111,9 +111,6 @@ class UpdateService
         return $updatedValues;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function createUpdate(Theme $theme): Update
     {
         $update = new Update();

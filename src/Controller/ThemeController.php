@@ -4,15 +4,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Document\Theme;
-use App\ErrorResponse;
-use App\Exception\UpdateException;
 use App\Form\ThemeType;
 use App\JsonResponse;
 use App\Repository\ThemeRepository;
 use App\Service\JsonSerializer;
 use App\Service\LastUpdateService;
 use App\Service\UpdateService;
-use App\SuccessResponse;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -133,33 +130,5 @@ class ThemeController extends AbstractController
     {
         $this->documentManager->remove($theme);
         $this->documentManager->flush();
-    }
-
-    /**
-     * @Route("/{id}/update", name="theme_update", methods={"GET"})
-     */
-    public function update(Theme $theme, Request $request)
-    {
-        $update = $this->updateService->createUpdate($theme);
-        $update->setType($request->get('type', 'manual'));
-
-        $themeFields = $theme->getFields();
-        try {
-            $fields = $this->updateService->importFields($themeFields);
-
-            $update->setFields($this->updateService->manipulateFields($themeFields, $fields));
-            $this->documentManager->persist($update);
-        } catch (UpdateException $exception) {
-            return new ErrorResponse($exception);
-        }
-
-        if (boolval($request->get('export', true)) === true) {
-            return $this->forward(UpdateController::class . '::export', [
-                'update' => $update,
-                'env' => 'rc',
-            ]);
-        } else {
-            return new SuccessResponse();
-        }
     }
 }

@@ -1,0 +1,21 @@
+@startuml
+
+title Komponenten
+
+rectangle Paula {
+    [Preset Vewaltung] as PEV
+    [Partner Verwaltung] as PAV
+    [Updater] as UP
+    [Datenbank] as DB
+}
+
+rectangle Webseite {
+    interface "Partnertheme Import Api" as WE
+}
+
+UP --> WE
+PAV --> DB: <<use>>
+UP --> DB: <<use>>
+PEV --> DB: <<use>>
+
+@enduml

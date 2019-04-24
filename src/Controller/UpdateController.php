@@ -93,6 +93,34 @@ class UpdateController extends AbstractController
         return $this->json(['status' => 'success']);
     }
 
+    /**
+     * @Route("/{id}/update", name="theme_update", methods={"GET"})
+     */
+    public function update(Theme $theme, Request $request)
+    {
+        $update = $this->updateService->createUpdate($theme);
+        $update->setType($request->get('type', 'manual'));
+
+        $themeFields = $theme->getFields();
+        try {
+            $fields = $this->updateService->importFields($themeFields);
+
+            $update->setFields($this->updateService->manipulateFields($themeFields, $fields));
+            $this->documentManager->persist($update);
+        } catch (UpdateException $exception) {
+            return new ErrorResponse($exception);
+        }
+
+        if (boolval($request->get('export', true)) === true) {
+            return $this->forward(UpdateController::class . '::export', [
+                'update' => $update,
+                'env' => 'rc',
+            ]);
+        } else {
+            return new SuccessResponse();
+        }
+    }
+
     private function restorePrevious(Update $update, $env, &$message = '')
     {
         if ($update instanceof Update) {
